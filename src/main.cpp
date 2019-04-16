@@ -35,8 +35,8 @@ int main() {
     // TERRAIN
     // -------
     const uint terrainX = 50, terrainY = 50;
-    Terrain<50, 50> terrain;
-    std::vector<glm::vec4> transitions = terrain.getTransitions();
+    Terrain<50, 50> *terrain = new Terrain<50, 50> ();
+    std::vector<glm::vec4> transitions = terrain -> getTransitions();
 
     // Render loop
     // -----------
@@ -60,6 +60,12 @@ int main() {
         if (window.keyPressed(GLFW_KEY_LEFT_CONTROL))
             camera.move(camera.down(), deltaTime);
         camera.mouseMove(window.getMXPos(), window.getMYPos());
+        // New terrain generation
+        if (window.keyPressed(GLFW_KEY_R)) {
+            delete terrain;
+            terrain = new Terrain<50, 50>();     
+            transitions = terrain -> getTransitions();
+        }
         // Rendering
         window.clear(glm::vec4(0.693f, 0.905f, 1.0f, 1.0f));   
         shaderProgram.setUniform("u_time", glfwGetTime());
